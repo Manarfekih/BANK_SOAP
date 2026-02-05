@@ -1,4 +1,7 @@
 package com.example.bank.endpoint;
+import com.example.bank.ws.WithdrawRequest;
+import com.example.bank.ws.WithdrawResponse;
+
 
 import java.math.BigDecimal;
 
@@ -53,4 +56,27 @@ public class BankEndpoint {
     resp.setNewBalance(newBalance);
     return resp;
   }
+  
+  @PayloadRoot(namespace = NAMESPACE_URI, localPart = "WithdrawRequest")
+  @ResponsePayload
+  public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
+
+      WithdrawResponse response = new WithdrawResponse();
+
+      BigDecimal newBalance = bankService.withdraw(
+          request.getAccountId(),
+          request.getAmount()
+      );
+
+      response.setNewBalance(newBalance);
+      return response;
+  }
+
+
+
+  
+  
+  
+  
+  
 }
